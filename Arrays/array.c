@@ -5,17 +5,18 @@
 //  Created by Laura Gong on 10/24/19.
 //
 
+#include <stdio.h>
 #include "array.h"
-#include<stdlib.h>
 
-int main()
+void Display(struct Array a)
 {
-    int size = 5;
-    int* array;
-    array = (int*)malloc(size*sizeof(int));
-    array[0] = 10;
-    array[1] = 12;
-    array[3] = 24;
-    printf("%d\n", array[3]);
-    return 0;
+    printf("Size: %d\n", a.size);
+    printf("Actual length: %d\n", a.length);
+    printf("Here are the elements you added: ");
+    
+    for (int i = 0; i < a.length; i++)
+    {
+        printf("%d ", a.array[i]);
+    }
+    printf("\n");
 }

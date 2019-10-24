@@ -5,9 +5,15 @@
 //  Created by Laura Gong on 10/24/19.
 //
 
-#ifndef array_h
-#define array_h
+#ifndef GUARD_array_h
+#define GUARD_array_h
 
-#include <stdio.h>
+struct Array {
+    int* array;
+    int size; // size allocated
+    int length; // actual length of array
+};
 
-#endif /* array_h */
+void Display(struct Array a);
+
+#endif
