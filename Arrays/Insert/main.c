@@ -30,14 +30,17 @@ int main()
         }
     }
     
-    if(Append(&arr, 100))
+    if(Insert(&arr, 20, 100))
     {
-        printf("Successfully added element!");
+        printf("Successfully inserted element!");
     } else {
-        printf("You can't append more elements, your array is full!");
+        printf("You can't append more elements, your array is full or you're asking to insert an element at an impossible index!");
     }
     
     Display(arr);
+	
+	printf("Press ENTER key to Continue\n");
+	getchar();
     
     return 0;
 }

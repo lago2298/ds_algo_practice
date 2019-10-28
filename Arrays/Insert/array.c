@@ -25,6 +25,19 @@ void Display(struct Array a)
 // Returns 1 if you can insert more elements, 0 if full
 int Insert(struct Array *a, int index, int element)
 {
+	int current_index;
+	// Check if index is unreasonable request (greater than size of array) or if array is full and can't have elements added
+	if (index < a->size && a->length != a->size)
+	{
+		for(int i = a->length; i > index; i--)
+		{
+			a->array[i] = a->array[i-1];
+		}
+		a->array[index] = element;
+		(a->length)++;
+	} else {
+		return 0;
+	}
     return 1;
 }
 
