@@ -15,22 +15,29 @@ void swap(int *first, int *second)
     *second = temp;
 }
 
-int partition(int *array, int low, int high)
+int partition(int a[], int low, int high)
 {
-    // pivot is the last element
-    int pivot = *(array+high);
-    int i = low - 1;
+    // pivot is the first element
+    int pivot = a[low];
+    int i = low + 1;
+	int j = high;
+	
+	printf("%d\n", pivot);
     
-    for (int j = low; j < high - 1; j++)
-    {
-        if (*(array+j) < pivot)
-        {
-            i++;
-            swap(array+i, array+j);
-        }
-    }
-    swap(array+i+1, array+high);
-    return i+1;
+    while (i <= j)
+	{
+		if (a[i] <= pivot)
+		{
+			i++;
+		} else if (a[j] > pivot)
+		{
+			j--;
+		} else {
+			swap(&a[i], &a[j]);
+		}
+	}
+	swap(&a[j], &a[low]);
+	return j;
 }
 
 void quicksort(int *array, int start_index, int end_index)
@@ -38,7 +45,7 @@ void quicksort(int *array, int start_index, int end_index)
     if (start_index < end_index)
     {
         int pi = partition(array, start_index, end_index);
-        
+        printf("pivot:%d\n", pi);
         quicksort(array, start_index, pi - 1);
         quicksort(array, pi+1, end_index);
     }
@@ -57,7 +64,7 @@ int main()
     
     printf("\n");
     
-    quicksort(array, 0, arr_size);
+    quicksort(array, 0, arr_size-1);
     
     printf("Quicksort : ");
     for (int *ptr = array; ptr < array+arr_size; ptr++)
