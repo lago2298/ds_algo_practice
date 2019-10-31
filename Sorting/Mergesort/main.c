@@ -47,13 +47,13 @@ void merge (int *array, int low, int mid, int high)
     }
     
     // Read helper_array into array
-    for (int m = 0; m <= high; m++)
+    for (int m = low; m <= high; m++)
     {
         array[m] = helper_array[m];
     }
     
     printf("Sorted part: ");
-    for (int m = 0; m <= high; m++)
+    for (int m = low; m <= high; m++)
     {
         printf("%d ", array[m]);
     }
