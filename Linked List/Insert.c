@@ -40,17 +40,55 @@ void Print_List (List *list)
 	}
 }
 
-void Insert_Sorted (List *list, int element)
+void Insert_Sorted (List **list, int element)
 {
-	
+    List *new_element = malloc(sizeof(List)); // create new element
+    List *tmp = *list;
+    // Empty List case
+    if (*list == NULL)
+    {
+        *list = new_element;
+        new_element->data = element;
+        new_element->next = NULL;
+    } else {  // Not empty list
+        // check first element
+        if (tmp->data >= element)
+        {
+            // Insert as the first element
+            *list = new_element;
+            new_element-> data = element;
+            new_element->next = tmp;
+            return;
+        }
+        // If it shouldn't be sorted before the first element, then:
+        while (tmp->next != NULL)
+        {
+            if (tmp->next->data >= element)
+            {
+                // link new element next pointer to point to current next element
+                new_element->data = element;
+                new_element->next = tmp->next;
+                tmp->next = new_element; // link current element to new element
+                return;
+            } else {
+                tmp = tmp->next;
+            }
+        }
+        // If reached end of list, then insert at end
+        tmp->next = new_element;
+        new_element->data = element;
+        new_element->next = NULL;
+        
+    }
 }
 
 int main()
 {
     List *new_list = Create();
-	Insert(&new_list, 5);
-	Insert(&new_list, 20);
-	Insert(&new_list, 30);
+	Insert_Sorted(&new_list, 200);
+	Insert_Sorted(&new_list, 20);
+	Insert_Sorted(&new_list, 2);
+    Insert_Sorted(&new_list, 30);
 	Print_List(new_list);
     return 0;
 }
