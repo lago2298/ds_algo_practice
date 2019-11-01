@@ -1,7 +1,7 @@
 //
 //  main.c
 //
-//  This program tells the user whether the machine is Little Endian (MSB first) or Big Endian
+//  This program tells the user whether the machine is Little Endian (LSB [least significant byte] first) or Big Endian (MSB first)
 //
 //
 
