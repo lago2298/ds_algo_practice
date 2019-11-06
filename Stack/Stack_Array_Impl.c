@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 typedef struct Stack {
 	unsigned int size;
@@ -9,7 +10,7 @@ typedef struct Stack {
 
 int isFull (Stack* stack);
 
-Stack* init (int size) 
+Stack* init (unsigned int size)
 {
 	// Create Stack object
 	Stack *stack = malloc(sizeof(Stack));  // allocate memory for entire stack
@@ -28,6 +29,7 @@ void push (Stack* stack, int element)
 		stack->array[stack->top] = element;
 	} else {
 		printf("Stack is Full, element %d cannot be added\n", element);
+        return;  // return nothing if stack is full
 	}
 }
 
@@ -37,11 +39,23 @@ int pop (Stack* stack)
     if (stack->top < 0)
     {
         printf("Can't pop empty stack.\n");
+        return INT_MIN;
     }
     int top_element = stack->array[stack->top];
     stack->array[stack->top] = 0;  // 0 out the element - optional
     stack->top--;
     return top_element;
+}
+
+// peeks at top element but doesn't remove
+int peek (Stack* stack)
+{
+    if (stack->top < 0)
+    {
+        printf("Can't peek an empty stack.\n");
+        return INT_MIN;
+    }
+    return stack->array[stack->top];
 }
 
 int isFull (Stack* stack)
@@ -73,6 +87,8 @@ int main()
 {
     Stack *new_stack = init(5);
     printf("full/empty?: %d\n", isEmpty(new_stack));
+    pop(new_stack);
+    printf("top: %d\n", new_stack->top);
 	push(new_stack, 2);
     printf("full/empty?: %d\n", isEmpty(new_stack));
 	push(new_stack, 10);
@@ -83,6 +99,8 @@ int main()
 	Print_Stack(new_stack);
     int top_element = pop(new_stack);
     printf("Removed element: %d\n", top_element);
+    Print_Stack(new_stack);
+    printf("Peek top element: %d\n", peek(new_stack));
     Print_Stack(new_stack);
     return 0;
 }
