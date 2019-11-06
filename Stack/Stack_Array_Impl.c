@@ -7,6 +7,8 @@ typedef struct Stack {
 	int *array;
 } Stack;
 
+int isFull (Stack* stack);
+
 Stack* init (int size) 
 {
 	// Create Stack object
@@ -20,13 +22,36 @@ Stack* init (int size)
 
 void push (Stack* stack, int element)
 {
-	if (((stack->top)+1) != stack->size-1)  // change this to check isFull
+	if (!isFull(stack))
 	{
 		stack->top = (stack->top)+1;
 		stack->array[stack->top] = element;
 	} else {
-		printf("Stack is Full, element %d cannot be added", element);
+		printf("Stack is Full, element %d cannot be added\n", element);
 	}
+}
+
+// pops top element off and returns value
+int pop (Stack* stack)
+{
+    if (stack->top < 0)
+    {
+        printf("Can't pop empty stack.\n");
+    }
+    int top_element = stack->array[stack->top];
+    stack->array[stack->top] = 0;  // 0 out the element - optional
+    stack->top--;
+    return top_element;
+}
+
+int isFull (Stack* stack)
+{
+    return (stack->top == stack->size-1) ? 1 : 0;
+}
+
+int isEmpty (Stack *stack)
+{
+    return stack->top == -1;
 }
 
 void Print_Stack (Stack* stack)
@@ -47,8 +72,17 @@ void delete_stack (Stack** stack)
 int main()
 {
     Stack *new_stack = init(5);
+    printf("full/empty?: %d\n", isEmpty(new_stack));
 	push(new_stack, 2);
+    printf("full/empty?: %d\n", isEmpty(new_stack));
 	push(new_stack, 10);
+    push(new_stack, 20);
+    push(new_stack, 30);
+    push(new_stack, 40);
+    push(new_stack, 50);
 	Print_Stack(new_stack);
+    int top_element = pop(new_stack);
+    printf("Removed element: %d\n", top_element);
+    Print_Stack(new_stack);
     return 0;
 }
