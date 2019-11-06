@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 typedef struct Stack {
-	int size;
+	unsigned int size;
 	int top;
 	int *array;
 } Stack;
@@ -10,18 +10,19 @@ typedef struct Stack {
 Stack* init (int size) 
 {
 	// Create Stack object
-	Stack *stack;
+	Stack *stack = malloc(sizeof(Stack));  // allocate memory for entire stack
 	stack->size = size;
 	stack->top = -1;  // top = -1 when there are no elements
-	stack->array = malloc(size*sizeof(int*));
+    // use calloc instead of malloc to initialize everything to 0
+	stack->array = calloc(size,sizeof(int));  // allocate memory for array that serves as stack
 	return stack;
 }
 
 void push (Stack* stack, int element)
 {
-	if (stack->top+1 != stack->size)  // change this to check isFull
+	if (((stack->top)+1) != stack->size-1)  // change this to check isFull
 	{
-		stack->top = stack->top+1;
+		stack->top = (stack->top)+1;
 		stack->array[stack->top] = element;
 	} else {
 		printf("Stack is Full, element %d cannot be added", element);
