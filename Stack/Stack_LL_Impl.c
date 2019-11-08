@@ -31,6 +31,27 @@ Stack* CreateStack()
     return stack;
 }
 
+int pop (Stack** stack)
+{
+    // check if stack is empty
+    if ((*stack)->list == NULL)
+    {
+        return INT_MIN;
+    } else {
+        // save the value of the top node
+        int top_value = (*stack)->list->data;
+        ListNode *tmp = (*stack)->list;
+        // remove the top element by connecting head pointer to second element
+        (*stack)->list = ((*stack)->list)->next;
+        // deallocate the ListNode memory
+        free(tmp);
+        // decrement size
+        ((*stack)->size)--;
+        // return the top node value
+        return top_value;
+    }
+}
+
 // Push from the top- 2 cases-> 1. Insert first element 2. Insert at top
 void push (Stack** stack, int element)
 {
@@ -58,22 +79,40 @@ void push (Stack** stack, int element)
 
 void DisplayElements (Stack* stack)
 {
-    // temporary pointer
-    ListNode *tmp = stack->list;
-    
-    printf("Printing list: ");
-    while(tmp != NULL)
+    if (stack != NULL)  // check if stack is still allocated
     {
-        printf("%d ", tmp->data);
-        tmp = tmp->next;
+        // temporary pointer
+        ListNode *tmp = stack->list;
+        
+        printf("Printing list: ");
+        while(tmp != NULL)
+        {
+            printf("%d ", tmp->data);
+            tmp = tmp->next;
+        }
+        printf("\n");
+        printf("Size of list: %u\n", stack->size);
+    } else {
+        printf("Stack was deallocated!\n");
     }
-    printf("\n");
-    printf("Size of list: %u\n", stack->size);
 }
 
-// delete stack by deleting list (iterate through each node) and then delete entire stack
+// delete stack by deleting each node from the first node until list is NULL and then delete entire stack
 // make sure to set all freed pointers to NULL
-void delete();
+void DeleteStack (Stack** stack)
+{
+    while ((*stack)->list != NULL)
+    {
+        ListNode *tmp = (*stack)->list;
+        // remove the top element by connecting head pointer to second element
+        (*stack)->list = ((*stack)->list)->next;
+        // deallocate the ListNode memory
+        free(tmp);
+    }
+    // when list has been completely deallocated, deallocate entire stack
+    free(*stack);
+    *stack = NULL;
+}
 
 int main()
 {
@@ -83,6 +122,17 @@ int main()
     push(&new_stack, 4);
     push(&new_stack, 5);
     push(&new_stack, 8);
+    DisplayElements(new_stack);
+    int pop_value = pop(&new_stack);
+    printf("Popped value: %d\n", pop_value);
+    DisplayElements(new_stack);
+    int pop_value2 = pop(&new_stack);
+    printf("Popped value: %d\n", pop_value2);
+    DisplayElements(new_stack);
+    push(&new_stack, 20);
+    push(&new_stack, 30);
+    DisplayElements(new_stack);
+    DeleteStack(&new_stack);
     DisplayElements(new_stack);
     return 0;
 }
