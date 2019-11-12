@@ -70,6 +70,12 @@ int isEmpty (Stack *stack)
 
 void Print_Stack (Stack* stack)
 {
+    printf("Print function Stack pointer address: %p\n", stack);
+    if (stack == NULL)
+    {
+        printf("Stack has been deallocated.\n");
+        return;
+    }
 	printf("This is the stack: ");
 	for (int i = 0; i < stack->size; i++)
 	{
@@ -80,7 +86,10 @@ void Print_Stack (Stack* stack)
 
 void delete_stack (Stack** stack)
 {
-	free(*stack);
+    free((*stack)->array); // free array allocation
+    (*stack)->array = NULL;  // set array pointer to NULL to handle dangling pointer
+	free(*stack); // free entire stack
+    *stack = NULL;  // set stack pointer to NULL to handle dangling pointer
 }
 
 int main()
@@ -101,6 +110,8 @@ int main()
     printf("Removed element: %d\n", top_element);
     Print_Stack(new_stack);
     printf("Peek top element: %d\n", peek(new_stack));
+    Print_Stack(new_stack);
+    delete_stack(&new_stack);
     Print_Stack(new_stack);
     return 0;
 }
